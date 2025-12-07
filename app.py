@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave-segura'
 DB_NAME = "equipos.db"
 
-# ---------------------- Base de datos ----------------------
+
 def get_db():
     conn = sqlite3.connect(DB_NAME)
     conn.row_factory = sqlite3.Row
@@ -50,7 +51,7 @@ def update_estado(id_equipo, estado):
     conn.execute("UPDATE equipos SET estado=? WHERE id=?", (estado, id_equipo))
     conn.commit()
 
-# ---------------------- Rutas ----------------------
+
 @app.route("/")
 def index():
     equipos = get_all()
@@ -83,7 +84,16 @@ def alertas():
 def informes():
     return render_template("informes.html")
 
-# ---------------------- Inicialización ----------------------
+
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+
+
+    if os.name == "nt":
+       
+        from waitress import serve
+        serve(app, host="0.0.0.0", port=8080)
+
+    else:
+        
+        app.run(debug=True, host="0.0.0.0", port=8080)
