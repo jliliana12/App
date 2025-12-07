@@ -1,0 +1,42 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Trazabilidad de Equipos",
+    "version": "1.0",
+    "description": "API REST para gestionar la trazabilidad de equipos."
+  },
+  "paths": {
+    "/api/equipos": {
+      "get": {
+        "summary": "Lista todos los equipos",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "summary": "Registrar equipo",
+        "parameters": [{
+          "name": "body",
+          "in": "body",
+          "required": true
+        }],
+        "responses": {
+          "200": { "description": "Equipo registrado" }
+        }
+      }
+    },
+    "/api/equipos/{id}/estado": {
+      "put": {
+        "summary": "Actualizar estado del equipo",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true
+        }],
+        "responses": {
+          "200": { "description": "Estado actualizado" }
+        }
+      }
+    }
+  }
+}
